@@ -93,7 +93,7 @@ class RoomTest {
         assertEquals("flashlight", actual.getName());
     }
 
-    @Disabled
+
     @Test
     public void testRemoveItemFromRoom() {
         //Arrange
@@ -105,7 +105,7 @@ class RoomTest {
         assertNotNull(found);
     }
 
-    @Disabled
+
     @Test
     public void testRemoveItemNotInRoom() {
         //Arrange

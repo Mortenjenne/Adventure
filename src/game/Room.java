@@ -38,6 +38,9 @@ public class Room {
 
     public void setNorthRoom(Room northRoom) {
         this.northRoom = northRoom;
+        if (northRoom.getSouthRoom() != this) {
+            northRoom.setSouthRoom(this);
+        }
     }
 
     public Room getEastRoom() {
@@ -46,6 +49,9 @@ public class Room {
 
     public void setEastRoom(Room eastRoom) {
         this.eastRoom = eastRoom;
+        if (eastRoom.getWestRoom() != this) {
+            eastRoom.setWestRoom(this);
+        }
     }
 
     public Room getSouthRoom() {
@@ -53,7 +59,10 @@ public class Room {
     }
 
     public void setSouthRoom(Room southRoom) {
-       this.southRoom = southRoom;
+        this.southRoom = southRoom;
+        if (southRoom.getNorthRoom() != this) {
+            southRoom.setNorthRoom(this);
+        }
     }
 
     public Room getWestRoom() {
@@ -62,6 +71,9 @@ public class Room {
 
     public void setWestRoom(Room westRoom) {
         this.westRoom = westRoom;
+        if (westRoom.getEastRoom() != this) {
+            westRoom.setEastRoom(this);
+        }
     }
 
     public String getName() {
