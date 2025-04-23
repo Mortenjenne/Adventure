@@ -81,7 +81,7 @@ class RoomTest {
         assertEquals(expectedNorthRoom.getName(), room5.getName());
     }
 
-    @Disabled
+
     @Test
     public void testAddItemToRoom() {
         //Arrange

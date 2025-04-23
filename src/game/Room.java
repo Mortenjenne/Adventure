@@ -33,35 +33,35 @@ public class Room {
     }
 
     public Room getNorthRoom() {
-        return null; //TODO
+        return this.northRoom;
     }
 
     public void setNorthRoom(Room northRoom) {
-       //TODO
+        this.northRoom = northRoom;
     }
 
     public Room getEastRoom() {
-        return null; //TODO
+        return this.eastRoom;
     }
 
     public void setEastRoom(Room eastRoom) {
-        //TODO
+        this.eastRoom = eastRoom;
     }
 
     public Room getSouthRoom() {
-        return null; //TODO
+        return this.southRoom;
     }
 
     public void setSouthRoom(Room southRoom) {
-       //TODO
+       this.southRoom = southRoom;
     }
 
     public Room getWestRoom() {
-        return null; //TODO
+        return this.westRoom;
     }
 
     public void setWestRoom(Room westRoom) {
-        //TODO
+        this.westRoom = westRoom;
     }
 
     public String getName() {

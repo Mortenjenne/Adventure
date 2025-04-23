@@ -29,18 +29,26 @@ public class Player {
                 break;
             case SOUTH:
                 //TODO
+                requestedRoom = currentRoom.getSouthRoom();
                 break;
             case EAST:
                 //TODO
+                requestedRoom = currentRoom.getEastRoom();
                 break;
             case WEST:
                 //TODO
+                requestedRoom = currentRoom.getWestRoom();
                 break;
         }
 
         // TODO if (requestedRoom != null) make currentRoom the requestedRoom;
         // TODO return whether move was possible
-        return false;
+        if(requestedRoom != null){
+            this.currentRoom = requestedRoom;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public List<Item> getInventory() {
