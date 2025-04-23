@@ -59,7 +59,7 @@ class PlayerTest {
         assertTrue(player.getInventory().size() == 1);
     }
 
-    @Disabled
+
     @Test
     public void testPickupNotExistingItemFromRoom() {
         //Arrange BeforeEach

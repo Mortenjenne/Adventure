@@ -35,9 +35,6 @@ public class Map {
         room9.addItem("a vine-covered journal","journal");
 
 
-
-
-
         // Connect rooms
         //TODO connect all rooms according to the specified map DONE
         room1.setEastRoom(room2);

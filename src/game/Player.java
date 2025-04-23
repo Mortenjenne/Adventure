@@ -59,6 +59,7 @@ public class Player {
         Item pickupFromRoom = currentRoom.removeItem(itemName);
         if (pickupFromRoom != null) {
             //TODO
+            inventory.add(pickupFromRoom);
             return true;
         }
         return false;

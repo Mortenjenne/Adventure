@@ -75,7 +75,8 @@ public class Room {
     public Item removeItem(String itemName) {
         Item itemToBeRemoved = findItem(itemName);
         if (itemToBeRemoved != null) {
-            //TODO
+            items.remove(itemToBeRemoved);
+
         }
         return itemToBeRemoved;
     }
@@ -83,7 +84,7 @@ public class Room {
     public Item findItem(String itemName) {
         for (Item item : items) {
             if (item.getName().equalsIgnoreCase(itemName)) {
-                //TODO
+                return item;
             }
         }
         return null;
