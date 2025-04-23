@@ -16,7 +16,7 @@ Formålet er at arbejde med unit tests i et modulært og <b>testbart</b> kodedes
 
 ### Hvordan skal I arbejde:
 - I skal udvikle jeres egen udgave af spillet <b>trinvist</b> på baggrund af det udleverede kodeskelet og en række medfølgende tests.
-- I skal få de vedlagte tests til at virke - først "RoomTest", så "MapTest" og tilsidst "PlayerTest". Logisk nok i en trinvis opbygning af spillet: først skal der kunne lave rum, så et kort over rummene, og tilssdst skal spilleren kunne bevæge sig rundt i rummene.
+- I skal få de vedlagte tests til at virke - først "MapTest", så "RoomTest" og tilsidst "PlayerTest".
 - I bør ikke rette i tests, men selve programkoden skal ændres for at komme til at virke. 
 - Lige nu kan I køre programmet fra main, og vælge kommandoerne HELP og EXIT uden at programmet crasher. Men der er mange metoder som skal ændres for at man kan bevæge sig rundt i spillet. I skal (i første omgang) ikke opfinde nye metoder, men få de eksisterende metoder implementeret, så tests virker.
 - Det er vigtigere at I ender med godt kodedesign, der opfylder de specificerede tests, end at I når at bygge hele spillet. <b>Det er som udgangspunkt torsdagsopgaven at få de eksisterende tests til at virke</b>. 
