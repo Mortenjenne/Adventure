@@ -46,18 +46,50 @@ public class Adventure {
                     ui.printMessage("Thank you for playing Adventure");
                     break;
                 case "go":
-                    Direction direction = parseCommand(commandString[1]);
-                    goCommand(direction);
+                    if(secondWord.isEmpty()){
+                        ui.printMessage("Where do you want to go?");
+                    } else {
+                        Direction direction = parseCommand(commandString[1]);
+                        goCommand(direction);
+                        player.changeEnergy(-10);
+                    }
                     break;
                 case "take":
-                    if (player.takeItem(secondWord)) {
+                    if (secondWord.isEmpty()) {
+                        ui.printMessage("What do you want to take?");
+                    } else if (player.takeItem(secondWord)) {
                         ui.printMessage("You have taken the " + secondWord);
                     } else {
                         ui.printMessage("There is nothing like " + secondWord + " to take around here.");
                     }
                     break;
+                case "eat":
+                    if(secondWord.isEmpty()){
+                        ui.printMessage("What do you want to eat?");
+                    } else {
+                        Item item = player.findFood(secondWord);
+                        if(item != null){
+                            Food food = (Food) item;
+                            ui.eat(player,food);
+                            player.removeFood(food);
+                        } else {
+                            ui.printMessage("You cant eat that!");
+                        }
+                    }
+                    break;
+                case "energy":
+                    ui.showEnergyBar(player);
+                    break;
                 default:
                     ui.printMessage("I do not understand that command.");
+            }
+
+            if(player.getEnergy() <= 30 || player.getEnergy() <= 20 || player.getEnergy() <= 10){
+                ui.printMessage("⚠️ WARNING ⚠️\nYour energy is critically low...\nOne more move might be your last.");
+            }
+            if(player.getEnergy() <= 0){
+                gameRunning = false;
+                ui.printMessage("You died!" + "\n" + "Thank you for playing Adventure");
             }
         }
     }

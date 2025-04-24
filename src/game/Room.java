@@ -94,13 +94,18 @@ public class Room {
     }
 
     public Item findItem(String itemName) {
+        String search = itemName.toLowerCase().replace(" ", "");
+
         for (Item item : items) {
-            if (item.getName().equalsIgnoreCase(itemName)) {
+            String itemNameInList = item.getName().toLowerCase().replace(" ", "");
+            if (itemNameInList.contains(search)) {
                 return item;
             }
         }
+
         return null;
     }
+
 
     public ArrayList<Item> getItems() {
         return items;

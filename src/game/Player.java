@@ -7,9 +7,11 @@ public class Player {
 
     private Room currentRoom;
     private ArrayList<Item> inventory;
+    private int energy;
 
     public Player() {
         inventory = new ArrayList<>();
+        this.energy = 100;
     }
 
     public Room getCurrentRoom() {
@@ -28,21 +30,16 @@ public class Player {
                 requestedRoom = currentRoom.getNorthRoom();
                 break;
             case SOUTH:
-                //TODO
                 requestedRoom = currentRoom.getSouthRoom();
                 break;
             case EAST:
-                //TODO
                 requestedRoom = currentRoom.getEastRoom();
                 break;
             case WEST:
-                //TODO
                 requestedRoom = currentRoom.getWestRoom();
                 break;
         }
 
-        // TODO if (requestedRoom != null) make currentRoom the requestedRoom;
-        // TODO return whether move was possible
         if(requestedRoom != null){
             this.currentRoom = requestedRoom;
             return true;
@@ -51,14 +48,40 @@ public class Player {
         }
     }
 
+    public void changeEnergy(int amount){
+        this.energy += amount;
+        if(this.energy > 100){
+            this.energy = 100;
+        }
+        if(this.energy < 0){
+            this.energy = 0;
+        }
+    }
+
+    public int getEnergy(){
+        return this.energy;
+    }
+
     public List<Item> getInventory() {
         return inventory;
+    }
+
+    public void removeFood(Food food){
+        this.inventory.remove(food);
+    }
+
+    public Item findFood(String foodName) {
+        for (Item item : this.inventory) {
+            if (item instanceof Food && item.getName().equalsIgnoreCase(foodName)) {
+                return item;
+            }
+        }
+        return null;
     }
 
     public boolean takeItem(String itemName) {
         Item pickupFromRoom = currentRoom.removeItem(itemName);
         if (pickupFromRoom != null) {
-            //TODO
             inventory.add(pickupFromRoom);
             return true;
         }

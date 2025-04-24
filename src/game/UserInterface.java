@@ -29,6 +29,22 @@ public class UserInterface {
         }
     }
 
+    public void eat(Player player, Food food){
+        if(food != null){
+            if(food.getNutrition() > 0){
+                player.changeEnergy(food.getNutrition());
+                System.out.println("You ate the " + food.getName() + " and gained " + food.getNutrition() + " energy."  );
+                System.out.print("You're energy level is now ");
+                showEnergyBar(player);
+            }
+            else {
+                player.changeEnergy(food.getNutrition());
+                System.out.println("You ate the " + food.getName() + " and lost " + food.getNutrition() + " energy, due to the food was poisonous"  );
+                showEnergyBar(player);
+            }
+        }
+    }
+
     public String[] readInput() {
         System.out.println("Awaiting your command:");
         String[] commands = scanner.nextLine().trim().toLowerCase().split(" ");
@@ -39,9 +55,9 @@ public class UserInterface {
         System.out.println(room.getDescription());
         ArrayList<Item> items = room.getItems();
         if (!items.isEmpty()) {
-            System.out.print("Items in the room: ");
+            System.out.println("Items in the room: ");
             for (Item item: items) {
-                System.out.print(item.getDescription() + " ");
+                System.out.println(item.getDescription() + " ");
             }
             System.out.println();
         }
@@ -62,7 +78,9 @@ public class UserInterface {
                  GO     followed by one of the directions: North, South, East or West, moves the player in that direction (if possible)
                         You can also just write a direction, or simply the first letter of a direction.
                  LOOK   Looks around you, and describes what you can see
-                 TAKE   or GET, followed by the name of an item, to pick up an item in the room
+                 TAKE   or GET, followed by the name of an item, to pick up an item in the room.
+                 EAT    Eats the food player has picked up, if food is ok, player gains health. Otherwise player looses health by eaten poisonous food.
+                 ENERGY Shows player energy level
                  EXIT   Ends the game
                 """);
     }
@@ -83,5 +101,21 @@ public class UserInterface {
 
     public void printMessage(String message) {
         System.out.println(message);
+    }
+
+    public void showEnergyBar(Player player) {
+        int energy = player.getEnergy();
+        int blocks = energy / 10;
+        String bar = "[";
+
+        for (int i = 0; i < 10; i++) {
+            if (i < blocks) {
+                bar += "#";
+            } else {
+                bar += " ";
+            }
+        }
+        bar += "] " + energy + "%";
+        printMessage("Energy: " + bar);
     }
 }
