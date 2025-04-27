@@ -50,12 +50,14 @@ public class Player {
 
     public void changeEnergy(int amount){
         this.energy += amount;
+
         if(this.energy > 100){
             this.energy = 100;
         }
         if(this.energy < 0){
             this.energy = 0;
         }
+
     }
 
     public int getEnergy(){
@@ -66,25 +68,34 @@ public class Player {
         return inventory;
     }
 
-    public void removeFood(Food food){
-        this.inventory.remove(food);
-    }
 
-    public Item findFood(String foodName) {
+    public void eat(Food food){
+        Food foodInventory = getFoodFromInventory(food.getName());
+            if(foodInventory == null){
+                return;
+            }
+            changeEnergy(food.getNutrition());
+            removeFood(food);
+        }
+
+    public Food getFoodFromInventory(String foodName) {
         for (Item item : this.inventory) {
             if (item instanceof Food && item.getName().equalsIgnoreCase(foodName)) {
-                return item;
+                return (Food) item;
             }
         }
         return null;
     }
 
-    public boolean takeItem(String itemName) {
-        Item pickupFromRoom = currentRoom.removeItem(itemName);
-        if (pickupFromRoom != null) {
-            inventory.add(pickupFromRoom);
-            return true;
+    public void removeFood(Food food){
+        this.inventory.remove(food);
+    }
+
+    public Item takeItem(String itemName) {
+        Item itemFromRoom = currentRoom.removeItem(itemName);
+        if (itemFromRoom != null) {
+            inventory.add(itemFromRoom);
         }
-        return false;
+        return itemFromRoom;
     }
 }

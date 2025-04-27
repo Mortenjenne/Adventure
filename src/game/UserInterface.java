@@ -29,43 +29,46 @@ public class UserInterface {
         }
     }
 
-    public void eat(Player player, Food food){
-        if(food != null){
-            if(food.getNutrition() > 0){
-                player.changeEnergy(food.getNutrition());
-                System.out.println("You ate the " + food.getName() + " and gained " + food.getNutrition() + " energy."  );
-                System.out.print("You're energy level is now ");
-                showEnergyBar(player);
-            }
-            else {
-                player.changeEnergy(food.getNutrition());
-                System.out.println("You ate the " + food.getName() + " and lost " + food.getNutrition() + " energy, due to the food was poisonous"  );
-                showEnergyBar(player);
-            }
+    public void eatFood(Food food,Player player){
+        if(food.getNutrition() > 0){
+        System.out.println("You ate the " + food.getName() + " and gained " + food.getNutrition() + " energy."  );
+        System.out.print("You're energy level is now ");
+        showEnergyBar(player);
+        }
+        else {
+            System.out.println("You ate the " + food.getName() + " and lost " + food.getNutrition() + " energy, due to the food was poisonous"  );
+            showEnergyBar(player);
         }
     }
 
     public String[] readInput() {
         System.out.println("Awaiting your command:");
-        String[] commands = scanner.nextLine().trim().toLowerCase().split(" ");
-        return commands;
+        String inputLine = scanner.nextLine().trim().toLowerCase();
+        return inputLine.split(" ", 2);
     }
 
     public void describeRoom(Room room) {
+        String title = room.getName();
+        String line = "+-" + "-".repeat(title.length()) + "-+";
+
+        System.out.println("\n" + line);
+        System.out.println("| " + title + " |");
+        System.out.println(line);
         System.out.println(room.getDescription());
+
         ArrayList<Item> items = room.getItems();
         if (!items.isEmpty()) {
-            System.out.println("Items in the room: ");
+            System.out.println("\nItems in the room:");
             for (Item item: items) {
-                System.out.println(item.getDescription() + " ");
+                System.out.println(" - " + item.getDescription());
             }
-            System.out.println();
         }
+        System.out.println();
     }
 
     public void printWelcome() {
-        System.out.println("Welcome to the game of Adventure!");
-        System.out.println("Type HELP or INFO for instructions on how to move around");
+        printBoxedMessage("Welcome to the game of Adventure!");
+        printBoxedMessage("Type HELP or INFO for instructions on how to move around");
     }
 
     public void showHelp() {
@@ -117,5 +120,20 @@ public class UserInterface {
         }
         bar += "] " + energy + "%";
         printMessage("Energy: " + bar);
+    }
+
+    public void printBoxedMessage(String message) {
+        String line = "+-";
+        for(int i = 0; i < message.length(); i++){
+            line += "-";
+        }
+        line += "-+";
+        System.out.println(line);
+        System.out.println("| " + message + " |");
+        System.out.println(line);
+    }
+
+    public void printPickedUpItem(Item item){
+        System.out.println("You took the " + item.getName());
     }
 }

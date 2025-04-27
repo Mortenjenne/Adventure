@@ -22,12 +22,10 @@ public class Room {
         items.add(item);
     }
 
-    // Convenience methods for creating and adding Item
     public void addItem(String description) {
         this.addItem(new Item(description));
     }
 
-    // Convenience methods for creating and adding Item with custom short name
     public void addItem(String description, String name) {
         this.addItem(new Item(description, name));
     }

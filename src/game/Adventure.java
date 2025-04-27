@@ -6,16 +6,17 @@ public class Adventure {
     private Map map;
     private Player player;
     private UserInterface ui = new UserInterface();
+    private boolean gameRunning;
 
     public Adventure() {
         map = new Map();
         map.buildMap();
         player = new Player();
         player.setCurrentRoom(map.getStartRoom());
+        gameRunning = true;
     }
 
     public void startGame() {
-        boolean gameRunning = true;
         ui.printWelcome();
 
         while (gameRunning) {
@@ -46,36 +47,14 @@ public class Adventure {
                     ui.printMessage("Thank you for playing Adventure");
                     break;
                 case "go":
-                    if(secondWord.isEmpty()){
-                        ui.printMessage("Where do you want to go?");
-                    } else {
-                        Direction direction = parseCommand(commandString[1]);
-                        goCommand(direction);
-                        player.changeEnergy(-10);
-                    }
+                    lowEnergyWarning();
+                    move(secondWord,commandString);
                     break;
                 case "take":
-                    if (secondWord.isEmpty()) {
-                        ui.printMessage("What do you want to take?");
-                    } else if (player.takeItem(secondWord)) {
-                        ui.printMessage("You have taken the " + secondWord);
-                    } else {
-                        ui.printMessage("There is nothing like " + secondWord + " to take around here.");
-                    }
+                    takeItem(secondWord);
                     break;
                 case "eat":
-                    if(secondWord.isEmpty()){
-                        ui.printMessage("What do you want to eat?");
-                    } else {
-                        Item item = player.findFood(secondWord);
-                        if(item != null){
-                            Food food = (Food) item;
-                            ui.eat(player,food);
-                            player.removeFood(food);
-                        } else {
-                            ui.printMessage("You cant eat that!");
-                        }
-                    }
+                    eatItem(secondWord);
                     break;
                 case "energy":
                     ui.showEnergyBar(player);
@@ -84,23 +63,13 @@ public class Adventure {
                     ui.printMessage("I do not understand that command.");
             }
 
-            if(player.getEnergy() <= 30 || player.getEnergy() <= 20 || player.getEnergy() <= 10){
-                ui.printMessage("⚠️ WARNING ⚠️\nYour energy is critically low...\nOne more move might be your last.");
-            }
-            if(player.getEnergy() <= 0){
-                gameRunning = false;
-                ui.printMessage("You died!" + "\n" + "Thank you for playing Adventure");
-            }
+
         }
     }
 
     public void goCommand(Direction direction) {
         if (goDirection(direction)) {
-            Room currentRoom = getCurrentRoom();
-            String name = currentRoom.getName();
-            String line = "-".repeat(name.length());
-            ui.printMessage(line + "\n" + name + "\n" + line);
-            ui.describeRoom(currentRoom);
+            ui.describeRoom(getCurrentRoom());
         } else {
             ui.printMessage("You cannot go in that direction");
         }
@@ -131,5 +100,63 @@ public class Adventure {
 
     public Room getCurrentRoom() {
         return player.getCurrentRoom();
+    }
+
+    public void lowEnergyWarning() {
+        int energy = player.getEnergy();
+
+        if (energy <= 0) {
+            gameRunning = false;
+            ui.printBoxedMessage("💀 You have died! 💀 Thank you for playing Adventure!");
+        } else if (energy <= 10) {
+            ui.printBoxedMessage("⚠️ Critical Energy Warning ⚠️ Your energy is dangerously low! One more move might be your last.");
+        } else if (energy <= 30) {
+            ui.printBoxedMessage("⚠️ Warning ⚠️ Your energy is running low. Be careful!");
+        }
+    }
+
+    public void eatItem(String secondWord){
+        if(secondWord.isEmpty()){
+            ui.printMessage("What do you want to eat?");
+        } else {
+            Food food = player.getFoodFromInventory(secondWord);
+            if(food != null){
+                player.eat(food);
+                ui.eatFood(food,player);
+
+            } else {
+                ui.printMessage("You cant eat that!");
+            }
+        }
+    }
+
+    public void takeItem(String secondWord){
+        if (secondWord.isEmpty()) {
+            ui.printMessage("What do you want to take?");
+        } else {
+            Item takenItem = player.takeItem(secondWord);
+            if(takenItem != null){
+                ui.printPickedUpItem(takenItem);
+            } else {
+                ui.printMessage("There is nothing like " + secondWord + " to take around here.");
+            }
+        }
+    }
+
+    public void move(String secondWord, String[] commandString){
+        if (secondWord.isEmpty()) {
+            ui.printMessage("Where do you want to go?");
+        } else {
+
+            Direction direction = parseCommand(commandString[1]);
+            goCommand(direction);
+            boolean moved = goDirection(direction);
+            if (moved) {
+                ui.describeRoom(player.getCurrentRoom());
+                player.changeEnergy(-10);
+                lowEnergyWarning();
+            }
+
+        }
     }
 }

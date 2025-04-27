@@ -4,7 +4,6 @@ public class Map {
 
     private Room startRoom;
 
-    //Create rooms
     public void buildMap() {
 
         // Room 1: Outside
@@ -27,6 +26,7 @@ public class Map {
         Room room4 = new Room("Wet cave", "large dark cave - the floor is quite wet and slippery here.");
         room4.addItem("a broken piece of chalk", "chalk");
         room4.addItem(new Food("A stale piece of bread, better than nothing", "bread", 20));
+        room4.addItem(new Food("A putrid-looking fish, definitely not edible", "fish", -50));
 
         // Room 5: Treasure cave
         Room room5 = new Room("Treasure cave", "small dark cave with apparently only a single opening");
@@ -37,7 +37,8 @@ public class Map {
         Room room6 = new Room("Underground Stream", "a dark, narrow stream of water that runs through the cave, the water glowing faintly due to minerals in it");
         room6.addItem("a rusted fishing net","net");
         room6.addItem(new Food("A freshly caught fish, might be raw but it's food", "fish", 25));
-        room6.addItem(new Food("A putrid-looking fish, definitely not edible", "rotten fish", -50));
+        room6.addItem(new Food("A bucket full of oysters, might been here for a long time", "oyters",-15));
+
 
         // Room 7: Crystal Chamber
         Room room7 = new Room("Crystal Chamber", "a dazzling chamber where large crystal formations rise from the ground, their sharp edges glowing in the dark");
@@ -49,11 +50,12 @@ public class Map {
         Room room8 = new Room("Mellon cave", "small stony path next to the dark lake. A small door seems to be carved into the rock-face");
         room8.addItem("a worn shovel","shovel");
         room8.addItem(new Food("A juicy melon, refreshing and filling", "melon", 40));
+        room8.addItem(new Food("A cursed pear, eating it may grant a powerful boost or put you into a deep sleep","cursed pear",-50));
 
         // Room 9: Collapsed Tunnel
         Room room9 = new Room("Collapsed Tunnel", "a section of the cave where a tunnel has partially collapsed, blocking the way ahead with rocks and debris");
         room9.addItem("a vine-covered journal","journal");
-        room9.addItem(new Food("A chunk of hard cheese, can be eaten as a snack", "cheese", 20));
+        room9.addItem(new Food("A chunk of hard cheese, could be a piece of comte", "cheese", 20));
 
 
         // Connect rooms
