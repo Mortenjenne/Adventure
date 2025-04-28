@@ -47,8 +47,7 @@ public class Adventure {
                     ui.printMessage("Thank you for playing Adventure");
                     break;
                 case "go":
-                    lowEnergyWarning();
-                    move(secondWord,commandString);
+                    move(commandString);
                     break;
                 case "take":
                     takeItem(secondWord);
@@ -62,14 +61,31 @@ public class Adventure {
                 default:
                     ui.printMessage("I do not understand that command.");
             }
+        }
+    }
 
-
+    public void move(String[] commandString){
+        if(commandString.length < 2 || commandString[1].isEmpty()){
+            ui.printMessage("Please enter a direction");
+        } else {
+            Direction direction = parseCommand(commandString[1]);
+            if(direction != null){
+                goCommand(direction);
+            } else {
+                ui.printMessage("Not a valid direction");
+            }
         }
     }
 
     public void goCommand(Direction direction) {
         if (goDirection(direction)) {
-            ui.describeRoom(getCurrentRoom());
+            Room currentRoom = getCurrentRoom();
+            String name = currentRoom.getName();
+            String line = "-".repeat(name.length());
+            ui.printMessage(line + "\n" + name + "\n" + line);
+            ui.describeRoom(currentRoom);
+            player.changeEnergy(-10);
+            lowEnergyWarning();
         } else {
             ui.printMessage("You cannot go in that direction");
         }
@@ -143,20 +159,5 @@ public class Adventure {
         }
     }
 
-    public void move(String secondWord, String[] commandString){
-        if (secondWord.isEmpty()) {
-            ui.printMessage("Where do you want to go?");
-        } else {
 
-            Direction direction = parseCommand(commandString[1]);
-            goCommand(direction);
-            boolean moved = goDirection(direction);
-            if (moved) {
-                ui.describeRoom(player.getCurrentRoom());
-                player.changeEnergy(-10);
-                lowEnergyWarning();
-            }
-
-        }
-    }
 }
