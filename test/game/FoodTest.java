@@ -37,19 +37,19 @@ class FoodTest {
         room.addItem(neutralFood);
         player.takeItem("bread");
         // Act
-        player.eat(neutralFood);
+        player.eat("bread");
         // Assert
-        assertEquals(100, player.getEnergy()); // No change in energy
+        assertEquals(100, player.getHealth()); // No change in energy
     }
 
     @Test
     public void testEatFoodIncreasesEnergy() {
         //Arange
-        player.changeEnergy(-30);
+        player.changeHealth(-30);
         //Act
-        player.eat(apple);
+        player.eat("apple");
         //Assert
-        assertEquals(90,player.getEnergy());
+        assertEquals(90,player.getHealth());
 
     }
 
@@ -58,30 +58,30 @@ class FoodTest {
         //Arange
         player.takeItem("mushroom");
         //Act
-        player.eat(mushroom);
+        player.eat("mushroom");
         //Assert
-        assertEquals(50,player.getEnergy());
+        assertEquals(50,player.getHealth());
     }
 
     @Test
     public void testEnergyDoesNotExceedMax() {
         //Arange
-        assertTrue(100 == player.getEnergy());
+        assertTrue(100 == player.getHealth());
         //Act
-        player.eat(apple);
+        player.eat("apple");
         //Assert
-        assertEquals(100,player.getEnergy());
+        assertEquals(100,player.getHealth());
     }
 
     @Test
     public void testPlayerEnergyCannotGoBelowZero() {
         //Arrange
-        player.changeEnergy(-75);
+        player.changeHealth(-75);
         player.takeItem("mushroom");
         //Act
-        player.eat(mushroom);
+        player.eat("mushroom");
         //Assert
-        assertEquals(0, player.getEnergy());
+        assertEquals(0, player.getHealth());
     }
 
 
@@ -89,11 +89,11 @@ class FoodTest {
     public void testEatNonInventoryFood() {
         // Arrange
         Food banana = new Food("Banana", "banana", 20);
-        player.changeEnergy(-20);
+        player.changeHealth(-20);
         // Act
-        player.eat(banana);
+        player.eat("banana");
         // Assert
-        assertEquals(80, player.getEnergy());
+        assertEquals(80, player.getHealth());
     }
 
 }

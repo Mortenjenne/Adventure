@@ -1,6 +1,5 @@
 package game;
 
-
 public class Adventure {
 
     private Map map;
@@ -55,8 +54,21 @@ public class Adventure {
                 case "eat":
                     eatItem(secondWord);
                     break;
-                case "energy":
-                    ui.showEnergyBar(player);
+                case "health":
+                    ui.showHealthBar(player);
+                    break;
+                case "equip":
+                case "change":
+                    equipWeapon(secondWord);
+                    break;
+                case "weapon":
+                    showWeapon();
+                    break;
+                case "drop":
+                    dropWeapon(secondWord);
+                    break;
+                case "attack":
+                    attack(secondWord);
                     break;
                 default:
                     ui.printMessage("I do not understand that command.");
@@ -64,7 +76,7 @@ public class Adventure {
         }
     }
 
-    public void move(String[] commandString){
+    private void move(String[] commandString){
         if(commandString.length < 2 || commandString[1].isEmpty()){
             ui.printMessage("Please enter a direction");
         } else {
@@ -77,15 +89,15 @@ public class Adventure {
         }
     }
 
-    public void goCommand(Direction direction) {
+    private void goCommand(Direction direction) {
         if (goDirection(direction)) {
             Room currentRoom = getCurrentRoom();
             String name = currentRoom.getName();
             String line = "-".repeat(name.length());
             ui.printMessage(line + "\n" + name + "\n" + line);
             ui.describeRoom(currentRoom);
-            player.changeEnergy(-10);
-            lowEnergyWarning();
+            player.changeHealth(-10);
+            lowHealthWarning();
         } else {
             ui.printMessage("You cannot go in that direction");
         }
@@ -118,35 +130,42 @@ public class Adventure {
         return player.getCurrentRoom();
     }
 
-    public void lowEnergyWarning() {
-        int energy = player.getEnergy();
+    private void lowHealthWarning() {
+        int energy = player.getHealth();
 
         if (energy <= 0) {
             gameRunning = false;
             ui.printBoxedMessage("💀 You have died! 💀 Thank you for playing Adventure!");
         } else if (energy <= 10) {
-            ui.printBoxedMessage("⚠️ Critical Energy Warning ⚠️ Your energy is dangerously low! One more move might be your last.");
+            ui.printBoxedMessage("⚠️ Critical Health Warning ⚠️ Your health is dangerously low! One more move might be your last.");
         } else if (energy <= 30) {
-            ui.printBoxedMessage("⚠️ Warning ⚠️ Your energy is running low. Be careful!");
+            ui.printBoxedMessage("⚠️ Warning ⚠️ Your health is running low. Be careful!");
         }
     }
 
-    public void eatItem(String secondWord){
-        if(secondWord.isEmpty()){
-            ui.printMessage("What do you want to eat?");
-        } else {
-            Food food = player.getFoodFromInventory(secondWord);
-            if(food != null){
-                player.eat(food);
-                ui.eatFood(food,player);
+    private void eatItem(String secondWord) {
+        ActionResult result = player.eat(secondWord);
 
-            } else {
-                ui.printMessage("You cant eat that!");
-            }
+        switch (result) {
+            case EAT:
+
+                ui.printMessage("You have eaten the " + secondWord + " and gained health.");
+                ui.showHealthBar(player);
+                break;
+            case POISONOUS:
+                ui.printMessage("You have eaten the " + secondWord + " and lost health, due to the food was poisonous.");
+                ui.showHealthBar(player);
+                break;
+            case CANT:
+                ui.printMessage("You cannot eat that!");
+                break;
+            case DONT_KNOW:
+                ui.printMessage("What do you want to eat? You didn't specify anything.");
+                break;
         }
     }
 
-    public void takeItem(String secondWord){
+    private void takeItem(String secondWord){
         if (secondWord.isEmpty()) {
             ui.printMessage("What do you want to take?");
         } else {
@@ -158,6 +177,88 @@ public class Adventure {
             }
         }
     }
+
+    private void equipWeapon(String secondword){
+        ActionResult result = player.equipWeapon(secondword);
+
+        switch (result){
+            case EQUIP:
+                ui.printMessage("You have equipped the " + secondword);
+                break;
+            case CANT:
+                ui.printMessage("That's not a weapon!");
+                break;
+            case DONT_KNOW:
+                ui.printMessage("What do you want to take?");
+        }
+    }
+
+    private void showWeapon(){
+        if(player.getEquippedWeapon() != null){
+            ui.printMessage("You are carrying " + player.getEquippedWeapon() + "Damage pr. hit: " + player.getWeaponDamage());
+        } else {
+            ui.printMessage("You are not equipped with a weapon");
+        }
+    }
+
+    private void dropWeapon(String secondWord) {
+        ActionResult result = player.dropWeapon(secondWord);
+
+        switch (result){
+            case DROP:
+                ui.printMessage("You have dropped the " + secondWord);
+                break;
+            case CANT:
+                ui.printMessage("You cant drop that! not a weapon");
+                break;
+            case DONT_KNOW:
+                ui.printMessage("What do you want to drop?");
+        }
+    }
+
+    private void attack(String secondword){
+
+        ActionResult result = player.attack();
+        switch (result) {
+            case ATTACK:
+                ui.printMessage("You hit the enemy!");
+                break;
+            case KILL:
+                ui.printMessage("You killed the enemy! ⚔️");
+                break;
+            case DONT_KNOW:
+                ui.printMessage("There is no enemy to attack.");
+                break;
+            case CANT:
+                ui.printMessage("You don’t have a weapon equipped.");
+                break;
+        }
+
+
+    }
+
+    private void startCombat(Enemy enemy) {
+        while (!enemy.isDead() && player.getHealth() > 0) {
+            ui.printMessage(enemy.getName() + " (HP: " + enemy.getHealth() + ")");
+
+                enemy.takeDamage(player.getWeaponDamage());
+                ui.printMessage("You hit the " + enemy.getName() + "!");
+
+                if (!enemy.isDead()) {
+                    player.changeHealth(-enemy.attack());
+                    ui.printMessage(enemy.getName() + " hits you back!");
+                    ui.showHealthBar(player);
+                }
+            }
+
+        if (enemy.isDead()) {
+            player.getCurrentRoom().removeEnemy(enemy);
+            ui.printMessage("You defeated the " + enemy.getName() + "! ⚔️");
+        }
+    }
+
+
+
 
 
 }

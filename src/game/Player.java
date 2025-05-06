@@ -6,12 +6,13 @@ import java.util.List;
 public class Player {
 
     private Room currentRoom;
-    private ArrayList<Item> inventory;
-    private int energy;
+    private List<Item> inventory;
+    private int health;
+    private Weapon equippedWeapon;
 
     public Player() {
         inventory = new ArrayList<>();
-        this.energy = 100;
+        this.health = 100;
     }
 
     public Room getCurrentRoom() {
@@ -20,6 +21,14 @@ public class Player {
 
     public void setCurrentRoom(Room startRoom) {
         this.currentRoom = startRoom;
+    }
+
+    public Weapon getEquippedWeapon(){
+        return this.equippedWeapon;
+    }
+
+    public int getWeaponDamage(){
+        return this.equippedWeapon.getDamage();
     }
 
     public boolean move(Direction direction) {
@@ -48,20 +57,19 @@ public class Player {
         }
     }
 
-    public void changeEnergy(int amount){
-        this.energy += amount;
+    public void changeHealth(int amount){
+        this.health += amount;
 
-        if(this.energy > 100){
-            this.energy = 100;
+        if(this.health > 100){
+            this.health = 100;
         }
-        if(this.energy < 0){
-            this.energy = 0;
+        if(this.health < 0){
+            this.health = 0;
         }
-
     }
 
-    public int getEnergy(){
-        return this.energy;
+    public int getHealth(){
+        return this.health;
     }
 
     public List<Item> getInventory() {
@@ -69,16 +77,28 @@ public class Player {
     }
 
 
-    public void eat(Food food){
-        Food foodInventory = getFoodFromInventory(food.getName());
-            if(foodInventory == null){
-                return;
-            }
-            changeEnergy(food.getNutrition());
-            removeFood(food);
+    public ActionResult eat(String foodName) {
+        if (foodName.isEmpty()) {
+            return ActionResult.DONT_KNOW;
         }
 
-    public Food getFoodFromInventory(String foodName) {
+        Food food = getFoodFromInventory(foodName);
+        if (food == null) {
+            return ActionResult.CANT;
+        }
+
+        if(food.getNutrition() < 0){
+            changeHealth(food.getNutrition());
+            removeFood(food);
+            return ActionResult.POISONOUS;
+        } else {
+            changeHealth(food.getNutrition());
+            removeFood(food);
+            return ActionResult.EAT;
+        }
+    }
+
+    private Food getFoodFromInventory(String foodName) {
         for (Item item : this.inventory) {
             if (item instanceof Food && item.getName().equalsIgnoreCase(foodName)) {
                 return (Food) item;
@@ -87,7 +107,7 @@ public class Player {
         return null;
     }
 
-    public void removeFood(Food food){
+    private void removeFood(Food food){
         this.inventory.remove(food);
     }
 
@@ -98,4 +118,53 @@ public class Player {
         }
         return itemFromRoom;
     }
+
+    public ActionResult equipWeapon(String weaponName){
+        if(weaponName.isEmpty()){
+            return ActionResult.DONT_KNOW;
+        }
+        Weapon weapon = getWeaponFromInventory(weaponName);
+        if(weapon != null){
+            this.equippedWeapon = weapon;
+            return ActionResult.EQUIP;
+        } else {
+            return ActionResult.CANT;
+        }
+    }
+
+    public ActionResult attack(){
+        int damage = this.equippedWeapon.getDamage();
+        return ActionResult.ATTACK;
+
+    }
+
+    public ActionResult dropWeapon(String weaponName) {
+        if (weaponName.isEmpty()) {
+            return ActionResult.DONT_KNOW;
+        }
+
+            Weapon weapon = getWeaponFromInventory(weaponName);
+
+            if (weapon != null) {
+                this.inventory.remove(weapon);
+                this.currentRoom.addItem(weapon);
+                return ActionResult.DROP;
+            } else {
+                return ActionResult.CANT;
+            }
+    }
+
+    private Weapon getWeaponFromInventory(String weaponName){
+        for(Item item: this.inventory){
+            if(item instanceof Weapon && item.getName().equalsIgnoreCase(weaponName)){
+                return (Weapon) item;
+            }
+        }
+        return null;
+    }
+
+
+
+
+
 }

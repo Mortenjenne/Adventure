@@ -29,18 +29,6 @@ public class UserInterface {
         }
     }
 
-    public void eatFood(Food food,Player player){
-        if(food.getNutrition() > 0){
-        System.out.println("You ate the " + food.getName() + " and gained " + food.getNutrition() + " energy."  );
-        System.out.print("You're energy level is now ");
-        showEnergyBar(player);
-        }
-        else {
-            System.out.println("You ate the " + food.getName() + " and lost " + food.getNutrition() + " energy, due to the food was poisonous"  );
-            showEnergyBar(player);
-        }
-    }
-
     public String[] readInput() {
         System.out.println("Awaiting your command:");
         String inputLine = scanner.nextLine().trim().toLowerCase();
@@ -83,7 +71,11 @@ public class UserInterface {
                  LOOK   Looks around you, and describes what you can see
                  TAKE   or GET, followed by the name of an item, to pick up an item in the room.
                  EAT    Eats the food player has picked up, if food is ok, player gains health. Otherwise player looses health by eaten poisonous food.
-                 ENERGY Shows player energy level
+                 EQUIP  Player can equip weapon, so it is ready for attacking enemies.
+                 WEAPON Shows the player current equipped weapon
+                 CHANGE Player can change weapon from the inventory
+                 DROP   Player drop the item in the current room, the player is in. 
+                 HEALTH Shows player health level
                  EXIT   Ends the game
                 """);
     }
@@ -106,9 +98,9 @@ public class UserInterface {
         System.out.println(message);
     }
 
-    public void showEnergyBar(Player player) {
-        int energy = player.getEnergy();
-        int blocks = energy / 10;
+    public void showHealthBar(Player player) {
+        int health = player.getHealth();
+        int blocks = health / 10;
         String bar = "[";
 
         for (int i = 0; i < 10; i++) {
@@ -118,8 +110,8 @@ public class UserInterface {
                 bar += " ";
             }
         }
-        bar += "] " + energy + "%";
-        printMessage("Energy: " + bar);
+        bar += "] " + health + "%";
+        printMessage("Health: " + bar);
     }
 
     public void printBoxedMessage(String message) {

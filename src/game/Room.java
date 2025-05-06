@@ -1,6 +1,7 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Room {
     private Room northRoom;
@@ -11,11 +12,13 @@ public class Room {
     private String name;
     private String description;
     private ArrayList<Item> items;
+    private List<Enemy> enemyList;
 
     public Room(String name, String description) {
         this.name = name;
         this.description = description;
         items = new ArrayList<>();
+        this.enemyList = new ArrayList<>();
     }
 
     public void addItem(Item item) {
@@ -28,6 +31,10 @@ public class Room {
 
     public void addItem(String description, String name) {
         this.addItem(new Item(description, name));
+    }
+
+    public void addEnemy(String name, int health, int damage){
+        this.enemyList.add(new Enemy(name, health, damage));
     }
 
     public Room getNorthRoom() {
@@ -107,5 +114,9 @@ public class Room {
 
     public ArrayList<Item> getItems() {
         return items;
+    }
+
+    public void removeEnemy(Enemy enemy) {
+
     }
 }

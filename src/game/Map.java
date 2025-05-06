@@ -11,27 +11,33 @@ public class Map {
         room1.addItem("an old rusty flashlight", "flashlight");
         room1.addItem("a crinkly paper map with a big X in the middle", "map");
         room1.addItem(new Food("A shiny red apple, perfect for a quick snack", "apple", 10));
+        room1.addItem(new Weapon("Rusty Sword", "sword",5));
 
         // Room 2: Narrow cave
         Room room2 = new Room("Narrow cave", "narrow cave that seems to bend up and down almost infinitely");
         room2.addItem("a dusty old helmet with a cracked visor", "helmet");
         room2.addItem(new Food("A strange-looking mushroom, could be poisonous", "mushroom", -20));
+        room2.addItem(new Weapon("Iron Dagger", "dagger",7));
 
         // Room 3: Large grotto
         Room room3 = new Room("Large grotto", "large grotto with an opening very far above where sunlight shines through.");
         room3.addItem("a wicker bird cage", "bird cage");
         room3.addItem(new Food("A handful of dried berries, a small but helpful snack", "berries", 15));
+        room3.addItem(new RangedWeapon("Long bow with arrows","bow",8,12));
 
         // Room 4: Wet cave
         Room room4 = new Room("Wet cave", "large dark cave - the floor is quite wet and slippery here.");
         room4.addItem("a broken piece of chalk", "chalk");
         room4.addItem(new Food("A stale piece of bread, better than nothing", "bread", 20));
         room4.addItem(new Food("A putrid-looking fish, definitely not edible", "fish", -50));
+        room4.addItem(new RangedWeapon("Phoenix bow, Each arrow bursts into flames mid-air","bow",10,8));
 
         // Room 5: Treasure cave
         Room room5 = new Room("Treasure cave", "small dark cave with apparently only a single opening");
         room5.addItem("a cracked, ancient chest filled with gold coins", "chest");
         room5.addItem(new Food("A golden apple, rumored to have magical properties", "golden apple", 50));
+        room5.addItem(new RangedWeapon("A wand imbued with magical energy, capable of firing ethereal projectiles.","wand",25,10));
+        room5.addItem(new Weapon("Rusty axe with wodden handle","axe",4));
 
         // Room 6: Underground Stream
         Room room6 = new Room("Underground Stream", "a dark, narrow stream of water that runs through the cave, the water glowing faintly due to minerals in it");
@@ -56,6 +62,7 @@ public class Map {
         Room room9 = new Room("Collapsed Tunnel", "a section of the cave where a tunnel has partially collapsed, blocking the way ahead with rocks and debris");
         room9.addItem("a vine-covered journal","journal");
         room9.addItem(new Food("A chunk of hard cheese, could be a piece of comte", "cheese", 20));
+        room9.addItem(new Weapon("A large industrial wrench","wrench",3));
 
 
         // Connect rooms
