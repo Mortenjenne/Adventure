@@ -12,6 +12,7 @@ public class Map {
         room1.addItem("a crinkly paper map with a big X in the middle", "map");
         room1.addItem(new Food("A shiny red apple, perfect for a quick snack", "apple", 10));
         room1.addItem(new Weapon("Rusty Sword", "sword",5));
+        room1.addEnemy("A Knight apears from the forrest","knight",20,10);
 
         // Room 2: Narrow cave
         Room room2 = new Room("Narrow cave", "narrow cave that seems to bend up and down almost infinitely");
@@ -31,6 +32,7 @@ public class Map {
         room4.addItem(new Food("A stale piece of bread, better than nothing", "bread", 20));
         room4.addItem(new Food("A putrid-looking fish, definitely not edible", "fish", -50));
         room4.addItem(new RangedWeapon("Phoenix bow, Each arrow bursts into flames mid-air","bow",10,8));
+        room4.addEnemy("A bandit steps out from behind a rock", "bandit", 18, 6);
 
         // Room 5: Treasure cave
         Room room5 = new Room("Treasure cave", "small dark cave with apparently only a single opening");
@@ -38,6 +40,7 @@ public class Map {
         room5.addItem(new Food("A golden apple, rumored to have magical properties", "golden apple", 50));
         room5.addItem(new RangedWeapon("A wand imbued with magical energy, capable of firing ethereal projectiles.","wand",25,10));
         room5.addItem(new Weapon("Rusty axe with wodden handle","axe",4));
+        room5.addEnemy("A fearsome dragon appears from the cave, roaring as it breathes fire!", "dragon", 50, 15);
 
         // Room 6: Underground Stream
         Room room6 = new Room("Underground Stream", "a dark, narrow stream of water that runs through the cave, the water glowing faintly due to minerals in it");
@@ -50,7 +53,8 @@ public class Map {
         Room room7 = new Room("Crystal Chamber", "a dazzling chamber where large crystal formations rise from the ground, their sharp edges glowing in the dark");
         room7.addItem("a glowing crystal shard", "crystal");
         room7.addItem(new Food("A crystallized candy, sweet and energizing", "candy", 30));
-        room7.addItem(new Food("A bright purple berry, looks poisonous", "purple berry", -30));
+        room7.addItem(new Food("A bright purple berry, looks poisonous", "berry", -30));
+        room1.addEnemy("A massive troll lumbers toward you, swinging its club!", "troll", 40, 12);
 
         // Room 8: Mellon cave
         Room room8 = new Room("Mellon cave", "small stony path next to the dark lake. A small door seems to be carved into the rock-face");
@@ -63,6 +67,7 @@ public class Map {
         room9.addItem("a vine-covered journal","journal");
         room9.addItem(new Food("A chunk of hard cheese, could be a piece of comte", "cheese", 20));
         room9.addItem(new Weapon("A large industrial wrench","wrench",3));
+        room1.addEnemy("A goblin jumps out of the shadows, ready to attack!", "goblin", 15, 5);
 
 
         // Connect rooms

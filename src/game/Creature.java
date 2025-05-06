@@ -6,6 +6,8 @@ package game;
 
         public boolean isDead();
 
+        public String getDescription();
+
         public void takeDamage(int damage);
 
         public int getHealth();

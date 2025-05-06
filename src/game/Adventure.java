@@ -148,7 +148,6 @@ public class Adventure {
 
         switch (result) {
             case EAT:
-
                 ui.printMessage("You have eaten the " + secondWord + " and gained health.");
                 ui.showHealthBar(player);
                 break;
@@ -217,48 +216,58 @@ public class Adventure {
     }
 
     private void attack(String secondword){
+        if (secondword.isEmpty()) {
+            ui.printMessage("What do you want to attack?");
+            return;
+        }
+
+        Enemy enemy = getCurrentRoom().findEnemy(secondword);
+        if (enemy == null) {
+            ui.printMessage("There is no enemy named " + secondword + " here.");
+            return;
+        }
 
         ActionResult result = player.attack();
+
         switch (result) {
             case ATTACK:
-                ui.printMessage("You hit the enemy!");
-                break;
-            case KILL:
-                ui.printMessage("You killed the enemy! ⚔️");
-                break;
-            case DONT_KNOW:
-                ui.printMessage("There is no enemy to attack.");
+                ui.printMessage("You hit the " + enemy.getName() + "!");
+                startCombat(secondword);
                 break;
             case CANT:
                 ui.printMessage("You don’t have a weapon equipped.");
                 break;
         }
-
-
     }
 
-    private void startCombat(Enemy enemy) {
-        while (!enemy.isDead() && player.getHealth() > 0) {
-            ui.printMessage(enemy.getName() + " (HP: " + enemy.getHealth() + ")");
+
+    private void startCombat(String enemyName) {
+        Enemy enemy = getCurrentRoom().findEnemy(enemyName);
+
+        if (enemy != null) {
+
+            while (!enemy.isDead() && player.getHealth() > 0) {
+                ui.printMessage(enemy.getName() + " (HP: " + enemy.getHealth() + ")");
 
                 enemy.takeDamage(player.getWeaponDamage());
                 ui.printMessage("You hit the " + enemy.getName() + "!");
 
-                if (!enemy.isDead()) {
+                if (!enemy.isDead() || player.isDead()) {
                     player.changeHealth(-enemy.attack());
                     ui.printMessage(enemy.getName() + " hits you back!");
                     ui.showHealthBar(player);
+
                 }
             }
 
-        if (enemy.isDead()) {
-            player.getCurrentRoom().removeEnemy(enemy);
-            ui.printMessage("You defeated the " + enemy.getName() + "! ⚔️");
+            if (enemy.isDead()) {
+                player.getCurrentRoom().removeEnemy(enemy);
+                ui.printMessage("You defeated the " + enemy.getName() + "! ⚔️");
+                getCurrentRoom().removeEnemy(enemy);
+            }
+
+            //TODO if(player.gethealth()<=0)
+            //gamerunning = false;
         }
     }
-
-
-
-
-
 }

@@ -2,6 +2,7 @@ package game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SequencedCollection;
 
 public class Room {
     private Room northRoom;
@@ -33,8 +34,8 @@ public class Room {
         this.addItem(new Item(description, name));
     }
 
-    public void addEnemy(String name, int health, int damage){
-        this.enemyList.add(new Enemy(name, health, damage));
+    public void addEnemy(String description, String name, int health, int damage){
+        this.enemyList.add(new Enemy(description, name, health, damage));
     }
 
     public Room getNorthRoom() {
@@ -111,12 +112,27 @@ public class Room {
         return null;
     }
 
-
     public ArrayList<Item> getItems() {
         return items;
     }
 
-    public void removeEnemy(Enemy enemy) {
+    public List<Enemy> getEnemies() {
+        return this.enemyList;
+    }
 
+    public void removeEnemy(Enemy enemy) {
+        enemyList.remove(enemy);
+    }
+
+    public Enemy findEnemy(String enemyName) {
+        String search = enemyName.toLowerCase().replace(" ", "");
+
+        for (Enemy enemy : enemyList) {
+            String nameInList = enemy.getName().toLowerCase().replace(" ", "");
+            if (nameInList.contains(search)) {
+                return enemy;
+            }
+        }
+        return null;
     }
 }

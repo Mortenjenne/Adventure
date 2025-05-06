@@ -133,16 +133,16 @@ public class Player {
     }
 
     public ActionResult attack(){
-        int damage = this.equippedWeapon.getDamage();
+        if (equippedWeapon == null) {
+            return ActionResult.CANT;
+        }
         return ActionResult.ATTACK;
-
     }
 
     public ActionResult dropWeapon(String weaponName) {
         if (weaponName.isEmpty()) {
             return ActionResult.DONT_KNOW;
         }
-
             Weapon weapon = getWeaponFromInventory(weaponName);
 
             if (weapon != null) {
@@ -163,8 +163,7 @@ public class Player {
         return null;
     }
 
-
-
-
-
+    public boolean isDead() {
+        return health <= 0;
+    }
 }

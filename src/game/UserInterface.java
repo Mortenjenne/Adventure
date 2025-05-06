@@ -44,7 +44,9 @@ public class UserInterface {
         System.out.println(line);
         System.out.println(room.getDescription());
 
+        List<Enemy> enemies = room.getEnemies();
         ArrayList<Item> items = room.getItems();
+
         if (!items.isEmpty()) {
             System.out.println("\nItems in the room:");
             for (Item item: items) {
@@ -52,6 +54,16 @@ public class UserInterface {
             }
         }
         System.out.println();
+
+        if(!enemies.isEmpty()){
+            for(Enemy enemy: enemies)
+            describeEnemy(enemy);
+        }
+    }
+
+    public void describeEnemy(Enemy enemy) {
+        System.out.println("⚠️ An enemy appears! ⚠️");
+        System.out.println("Name: " + enemy.getName() + " - " + "Description: " + enemy.getDescription() + " - " + "Health: " + enemy.getHealth());
     }
 
     public void printWelcome() {

@@ -43,7 +43,7 @@ class FoodTest {
     }
 
     @Test
-    public void testEatFoodIncreasesEnergy() {
+    public void testEatFoodIncreasesHealth() {
         //Arange
         player.changeHealth(-30);
         //Act
@@ -54,7 +54,7 @@ class FoodTest {
     }
 
     @Test
-    public void testEatPoisunousFoodDecreaseEngergy(){
+    public void testEatPoisunousFoodDecreaseHealth(){
         //Arange
         player.takeItem("mushroom");
         //Act
@@ -64,7 +64,7 @@ class FoodTest {
     }
 
     @Test
-    public void testEnergyDoesNotExceedMax() {
+    public void testHealthDoesNotExceedMax() {
         //Arange
         assertTrue(100 == player.getHealth());
         //Act
@@ -74,7 +74,7 @@ class FoodTest {
     }
 
     @Test
-    public void testPlayerEnergyCannotGoBelowZero() {
+    public void testPlayerHealthCannotGoBelowZero() {
         //Arrange
         player.changeHealth(-75);
         player.takeItem("mushroom");
