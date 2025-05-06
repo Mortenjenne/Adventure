@@ -131,14 +131,14 @@ public class Adventure {
     }
 
     private void lowHealthWarning() {
-        int energy = player.getHealth();
+        int health = player.getHealth();
 
-        if (energy <= 0) {
+        if (health <= 0) {
             gameRunning = false;
             ui.printBoxedMessage("💀 You have died! 💀 Thank you for playing Adventure!");
-        } else if (energy <= 10) {
+        } else if (health <= 10) {
             ui.printBoxedMessage("⚠️ Critical Health Warning ⚠️ Your health is dangerously low! One more move might be your last.");
-        } else if (energy <= 30) {
+        } else if (health <= 30) {
             ui.printBoxedMessage("⚠️ Warning ⚠️ Your health is running low. Be careful!");
         }
     }
